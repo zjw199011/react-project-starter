@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
+import { Provider as  ProviderRedux } from 'react-redux'
+import { Route } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux'
+
+import {store, history, persistor} from './store'
+import { PersistGate } from 'redux-persist/integration/react'
+
+import Main from './routers/Main'
 
 class App extends Component {
+
   render() {
+
     return (
-      <div className="App">
-        <p>
-          Project start
-        </p>
-      </div>
-    );
+      <ProviderRedux store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={history}>
+            <div>
+              <Route exact path="/" component={Main}/>
+              <Route path="/:token" component={Main}/>
+            </div>
+          </ConnectedRouter>
+        </PersistGate>
+      </ProviderRedux>
+    )
   }
 }
 
